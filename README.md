@@ -15,8 +15,10 @@ Therefore, you will need to install an existing event store implementation or bu
 Available implementations:
 - [papyrus/doctrine-dbal-event-store](https://github.com/papyrusphp/doctrine-dbal-event-store) - using [doctrine/dbal](https://github.com/doctrine/dbal)
 
+_Follow the installation instructions of the chosen implementation first._
+
 ### Other optional packages
-When using the optional `EventSourcedAggregateRootRepository`, some other packages are required as well:
+When using the optional `EventSourcedAggregateRootRepository`, some other libraries are required as well:
 - A [papyrus/identity-generator](https://github.com/papyrusphp/identity-generator) implementation, e.g. [papyrus/ramsey-uuid-identity-generator](https://github.com/papyrusphp/ramsey-uuid-identity-generator)
 - The [papyrus/clock](https://github.com/papyrusphp/clock) implementation (future PSR-20)
 
