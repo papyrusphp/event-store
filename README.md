@@ -22,6 +22,52 @@ When using the optional `EventSourcedAggregateRootRepository`, some other librar
 - A [papyrus/identity-generator](https://github.com/papyrusphp/identity-generator) implementation, e.g. [papyrus/ramsey-uuid-identity-generator](https://github.com/papyrusphp/ramsey-uuid-identity-generator)
 - The [papyrus/clock](https://github.com/papyrusphp/clock) implementation (future PSR-20)
 
+## Configuration
+A plain PHP PSR-11 Container definition:
+```php
+use Papyrus\EventStore\Clock\Clock;
+use Papyrus\EventStore\EventStore\EventStore;
+use Papyrus\IdentityGenerator\IdentityGenerator;
+use Papyrus\EventStore\Repository\AggregateRootRepository;
+use Papyrus\EventStore\Repository\EventSourced\EventSourcedAggregateRootRepository;
+use Psr\Container\ContainerInterface;
+
+return [
+    // Other definitions
+    // ...
+
+    EventStore::class => static function (): EventStore {
+        // See papyrus/event-store implementation for more details
+    },
+
+    AggregateRootRepository::class => static function (ContainerInterface $container): AggregateRootRepository {
+        return new EventSourcedAggregateRootRepository(
+            $container->get(EventStore::class),
+            // See papyrus/identity-generator for more details
+            $container->get(IdentityGenerator::class),
+            // See papyrus/clock for more details
+            $container->get(Clock::class),
+        );
+    },
+]
+```
+A Symfony YAML-file definition:
+```yaml
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Other definitions
+  # ...
+
+  Papyrus\EventStore\EventStore\EventStore:
+    # See papyrus/event-store implementation for more details
+
+  Papyrus\EventStore\Repository\AggregateRootRepository:
+    class: Papyrus\EventStore\Repository\EventSourced\EventSourcedAggregateRootRepository
+```
+
 ## How to use
 Typically, every aggregate root has its own repository. In an event sourced setup,
 this repository will get and save the aggregate root into the event store. It will also dispatch
@@ -33,27 +79,6 @@ to fit your needs.
 To make your life easier, this library contains an `AggregateRootRepository`,
 which handles all event store logic for you. You can inject this repository to your domain specific
 aggregate root repository.
-
-Required DI definitions (configure in your used framework):
-```php
-use Papyrus\EventStore\Clock\Clock;
-use Papyrus\EventStore\EventStore\EventStore;
-use Papyrus\IdentityGenerator\IdentityGenerator;
-use Papyrus\EventStore\Repository\AggregateRootRepository;
-use Papyrus\EventStore\Repository\EventSourced\EventSourcedAggregateRootRepository;
-
-[
-    EventStore::class => 'configure implementation, e.g. papyrus/doctrine-dbal-event-store',
-    IdentityGenerator::class => 'configure implementation, e.g. papyrus/ramsey-uuid-identity-generator',
-    Clock::class => 'configure implementation, e.g. papyrus/clock'
-    
-    AggregateRootRepository::class => new EventSourcedAggregateRootRepository(
-        $container->get(EventStore::class),
-        $container->get(IdentityGenerator::class),
-        $container->get(Clock::class),
-    ),
-]
-```
 
 Your **simplified** example repository could be (using the `AggregateRootRepository`):
 ```php
