@@ -1,4 +1,11 @@
 # 📜 Papyrus Event Store
+[![Build Status](https://scrutinizer-ci.com/g/papyrusphp/event-store/badges/build.png?b=main)](https://github.com/papyrusphp/event-store/actions)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/papyrusphp/event-store.svg?style=flat)](https://scrutinizer-ci.com/g/papyrusphp/event-store/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/papyrusphp/event-store.svg?style=flat)](https://scrutinizer-ci.com/g/papyrusphp/event-store)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE)
+[![Packagist Version](https://img.shields.io/packagist/v/papyrus/event-store.svg?style=flat&include_prereleases)](https://packagist.org/packages/papyrus/event-store)
+[![PHP Version](https://img.shields.io/badge/php-%5E8.1-8892BF.svg?style=flat)](http://www.php.net)
+
 Event store interface for [papyrus/event-sourcing](https://github.com/papyrusphp/event-sourcing).
 
 ## Installation
