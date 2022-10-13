@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "papyrus/event-sourcing": "^0.1",
+        "papyrus/event-sourcing": "^0.2",
         "papyrus/clock": "^0.1",
         "papyrus/identity-generator": "^0.1"
     },

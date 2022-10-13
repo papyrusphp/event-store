@@ -13,11 +13,6 @@ final class TestAnotherAggregateRootEvent implements DomainEvent
     ) {
     }
 
-    public static function getEventName(): string
-    {
-        return 'test.another-event-name';
-    }
-
     public function getAggregateRootId(): string
     {
         return $this->aggregateRootId;
