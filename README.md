@@ -86,6 +86,9 @@ use Papyrus\EventStore\Repository\AggregateRootRepository;
 
 final class YourImplAggregateRootRepository implements YourAggregateRootRepository
 {
+    /**
+     * @param AggregateRootRepository<YourDomainEventInterface> $repository
+     */
     public function __construct(
         private readonly AggregateRootRepository $repository,
         private readonly AnEventBus $eventBus // Or an outbox-pattern repository
@@ -96,7 +99,13 @@ final class YourImplAggregateRootRepository implements YourAggregateRootReposito
     public function get(YourAggregateRootId $yourAggregateRootId): YourAggregateRoot
     {    
         try {
-            return $this->repository->get(YourAggregateRoot::class, $yourAggregateRootId);
+            return $this->repository->get(
+                (string) $yourAggregateRootId,
+                static function (array $domainEvents): YourAggregateRoot {
+                    // Your custom solution to reconstitute the aggregate root
+                    return YourAggregateRoot::reconstituteFromEvents($domainEvents);
+                },
+            );
         } catch (AggregateRootNotFoundException) {
             // Your aggregate root domain specific exception
             throw YourAggregateRootNotFoundException::withAggregateRootId($yourAggregateRootId);        
@@ -108,7 +117,11 @@ final class YourImplAggregateRootRepository implements YourAggregateRootReposito
     public function save(YourAggregateRoot $yourAggregateRoot): void
     {
         // Persist in event store via the available event repository 
-        $this->repository->save($yourAggregateRoot);
+        $this->repository->save(
+            (string) $yourAggregateRoot->getAggregateRootId(),
+            $yourAggregateRoot->getPlayhead(),
+            $yourAggregateRoot->getAppliedEvents(),
+        );
 
         // Dispatch all applied events to the event bus so that projectors can update read models
         foreach ($yourAggregateRoot->getAppliedEvents() as $event) {

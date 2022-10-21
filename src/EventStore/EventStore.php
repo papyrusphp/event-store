@@ -5,20 +5,24 @@ declare(strict_types=1);
 namespace Papyrus\EventStore\EventStore;
 
 use Generator;
-use Papyrus\EventSourcing\AggregateRootId;
 
+/**
+ * @template DomainEvent of object
+ */
 interface EventStore
 {
     /**
      * @throws AggregateRootNotFoundException
      * @throws EventStoreFailedException
      *
-     * @return Generator<DomainEventEnvelope>
+     * @return Generator<DomainEventEnvelope<DomainEvent>>
      */
-    public function load(AggregateRootId $aggregateRootId, int $playhead = 0): Generator;
+    public function load(string $aggregateRootId, int $playhead = 0): Generator;
 
     /**
+     * @param array<DomainEventEnvelope<DomainEvent>> $envelopes
+     *
      * @throws EventStoreFailedException
      */
-    public function append(AggregateRootId $aggregateRootId, DomainEventEnvelope ...$envelopes): void;
+    public function append(string $aggregateRootId, array $envelopes): void;
 }

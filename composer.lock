@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4048c3f8542c926f4b1aad5da66a66b",
+    "content-hash": "42a0fa67886efdfd690e1ea603054556",
     "packages": [
         {
             "name": "papyrus/clock",
@@ -62,61 +62,6 @@
                 "source": "https://github.com/papyrusphp/clock/tree/0.1.0"
             },
             "time": "2022-10-08T14:34:16+00:00"
-        },
-        {
-            "name": "papyrus/event-sourcing",
-            "version": "0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/papyrusphp/event-sourcing.git",
-                "reference": "b6cbc9fe70c8701d5db36bd4e9bc13c528a08b4d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/papyrusphp/event-sourcing/zipball/b6cbc9fe70c8701d5db36bd4e9bc13c528a08b4d",
-                "reference": "b6cbc9fe70c8701d5db36bd4e9bc13c528a08b4d",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.11",
-                "maglnet/composer-require-checker": "^4.2",
-                "phpro/grumphp-shim": "^1.13",
-                "phpstan/phpstan": "^1.8",
-                "phpunit/phpunit": "^9.5",
-                "scrutinizer/ocular": "^1.9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Papyrus\\EventSourcing\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeroen de Graaf",
-                    "email": "hello@jero.work"
-                }
-            ],
-            "description": "Yet another event sourcing library for PHP",
-            "keywords": [
-                "cqrs",
-                "ddd",
-                "domain-driven-design",
-                "event-sourcing",
-                "papyrus"
-            ],
-            "support": {
-                "issues": "https://github.com/papyrusphp/event-sourcing/issues",
-                "source": "https://github.com/papyrusphp/event-sourcing/tree/0.2.0"
-            },
-            "time": "2022-10-13T14:28:19+00:00"
         },
         {
             "name": "papyrus/identity-generator",
@@ -1795,16 +1740,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.10.0",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "87fa2d526e56737a2ae8fa201a61b15efae59b8a"
+                "reference": "33aefcdab42900e36366d0feab6206e2dd68f947"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/87fa2d526e56737a2ae8fa201a61b15efae59b8a",
-                "reference": "87fa2d526e56737a2ae8fa201a61b15efae59b8a",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/33aefcdab42900e36366d0feab6206e2dd68f947",
+                "reference": "33aefcdab42900e36366d0feab6206e2dd68f947",
                 "shasum": ""
             },
             "require": {
@@ -1834,9 +1779,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.10.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.13.0"
             },
-            "time": "2022-10-12T19:19:18+00:00"
+            "time": "2022-10-21T09:57:39+00:00"
         },
         {
             "name": "phpstan/phpstan",
