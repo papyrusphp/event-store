@@ -4,37 +4,64 @@ declare(strict_types=1);
 
 namespace Papyrus\EventStore\Test\Repository\EventSourced\Stub;
 
-use Papyrus\EventSourcing\AggregateRootId;
-use Papyrus\EventSourcing\EventSourceableAggregateRootTrait;
-use Papyrus\EventSourcing\EventSourcedAggregateRoot;
-
-final class TestAggregateRoot implements EventSourcedAggregateRoot
+final class TestAggregateRoot
 {
-    use EventSourceableAggregateRootTrait;
+    public int $playhead = 0;
 
-    private TestAggregateRootId $aggregateRootId;
+    /**
+     * @var list<object>
+     */
+    public array $appliedEvents = [];
 
-    public static function create(TestAggregateRootId $aggregateRootId, int $startingPlayhead): self
+    private string $aggregateRootId;
+
+    /**
+     * @param list<object> $events
+     */
+    public static function reconstituteFromEvents(array $events): self
+    {
+        $aggregateRoot = new self();
+        foreach ($events as $event) {
+            $aggregateRoot->handleEvent($event);
+        }
+
+        $aggregateRoot->appliedEvents = [];
+
+        return $aggregateRoot;
+    }
+
+    public static function create(string $aggregateRootId, int $startingPlayhead): self
     {
         $aggregateRoot = new self();
         $aggregateRoot->playhead = $startingPlayhead;
-        $aggregateRoot->apply(new TestAggregateRootEvent((string) $aggregateRootId));
+        $aggregateRoot->handleEvent(new TestAggregateRootEvent($aggregateRootId));
 
         return $aggregateRoot;
     }
 
     public function anotherBehavior(): void
     {
-        $this->apply(new TestAnotherAggregateRootEvent((string) $this->aggregateRootId));
+        $this->handleEvent(new TestAnotherAggregateRootEvent($this->aggregateRootId));
     }
 
-    public function getAggregateRootId(): AggregateRootId
+    public function getAggregateRootId(): string
     {
         return $this->aggregateRootId;
     }
 
-    protected function applyTestAggregateRootEvent(TestAggregateRootEvent $event): void
+    private function handleEvent(object $event): void
     {
-        $this->aggregateRootId = new TestAggregateRootId($event->aggregateRootId);
+        $this->appliedEvents[] = $event;
+
+        if ($event instanceof TestAggregateRootEvent) {
+            $this->applyTestAggregateRootEvent($event);
+        }
+
+        ++$this->playhead;
+    }
+
+    private function applyTestAggregateRootEvent(TestAggregateRootEvent $event): void
+    {
+        $this->aggregateRootId = $event->aggregateRootId;
     }
 }

@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace Papyrus\EventStore\Repository\EventSourced;
 
 use Papyrus\Clock\Clock;
-use Papyrus\EventSourcing\AggregateRoot;
-use Papyrus\EventSourcing\AggregateRootId;
-use Papyrus\EventSourcing\DomainEvent;
-use Papyrus\EventSourcing\EventSourcedAggregateRoot;
 use Papyrus\EventStore\EventStore\AggregateRootNotFoundException;
 use Papyrus\EventStore\EventStore\DomainEventEnvelope;
 use Papyrus\EventStore\EventStore\EventStore;
@@ -17,8 +13,17 @@ use Papyrus\EventStore\EventStore\Metadata;
 use Papyrus\EventStore\Repository\AggregateRootRepository;
 use Papyrus\IdentityGenerator\IdentityGenerator;
 
+/**
+ * @template AggregateRoot of object
+ * @template DomainEvent of object
+ *
+ * @implements AggregateRootRepository<AggregateRoot, DomainEvent>
+ */
 final class EventSourcedAggregateRootRepository implements AggregateRootRepository
 {
+    /**
+     * @param EventStore<DomainEvent> $eventStore
+     */
     public function __construct(
         private readonly EventStore $eventStore,
         private readonly IdentityGenerator $identityGenerator,
@@ -27,32 +32,33 @@ final class EventSourcedAggregateRootRepository implements AggregateRootReposito
     }
 
     /**
-     * @param class-string<EventSourcedAggregateRoot> $aggregateRootClassName
-     *
      * @throws AggregateRootNotFoundException
      * @throws EventStoreFailedException
      *
-     * @return EventSourcedAggregateRoot
+     * @return AggregateRoot
      */
-    public function get(string $aggregateRootClassName, AggregateRootId $aggregateRootId): AggregateRoot
+    public function get(string $aggregateRootId, callable $reconstituteFromEvents): object
     {
-        return $aggregateRootClassName::reconstituteFromEvents(...array_map(
-            static fn (DomainEventEnvelope $envelope): DomainEvent => $envelope->event,
+        /** @var list<DomainEvent> $domainEvents */
+        $domainEvents = array_map(
+            static fn (DomainEventEnvelope $envelope): object => $envelope->event,
             iterator_to_array($this->eventStore->load($aggregateRootId)),
-        ));
+        );
+
+        return $reconstituteFromEvents($domainEvents);
     }
 
     /**
-     * @param EventSourcedAggregateRoot $aggregateRoot
+     * @param list<DomainEvent> $appliedDomainEvents
      *
      * @throws EventStoreFailedException
      */
-    public function save(AggregateRoot $aggregateRoot): void
+    public function save(string $aggregateRootId, int $currentPlayhead, array $appliedDomainEvents): void
     {
-        $playhead = $aggregateRoot->getPlayhead() - count($aggregateRoot->getAppliedEvents());
+        $playhead = $currentPlayhead - count($appliedDomainEvents);
 
-        $this->eventStore->append($aggregateRoot->getAggregateRootId(), ...array_map(
-            function (DomainEvent $event) use (&$playhead): DomainEventEnvelope {
+        $this->eventStore->append($aggregateRootId, array_map(
+            function (object $event) use (&$playhead): DomainEventEnvelope {
                 return new DomainEventEnvelope(
                     $this->identityGenerator->generateId(),
                     $event,
@@ -61,7 +67,7 @@ final class EventSourcedAggregateRootRepository implements AggregateRootReposito
                     new Metadata(),
                 );
             },
-            $aggregateRoot->getAppliedEvents(),
+            $appliedDomainEvents,
         ));
     }
 }

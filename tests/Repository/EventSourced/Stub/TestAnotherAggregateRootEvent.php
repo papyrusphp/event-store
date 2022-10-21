@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Papyrus\EventStore\Test\Repository\EventSourced\Stub;
 
-use Papyrus\EventSourcing\DomainEvent;
-
-final class TestAnotherAggregateRootEvent implements DomainEvent
+final class TestAnotherAggregateRootEvent
 {
     public function __construct(
         public readonly string $aggregateRootId,

@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Papyrus\EventStore\Repository;
 
-use Papyrus\EventSourcing\AggregateRoot;
-use Papyrus\EventSourcing\AggregateRootId;
 use Papyrus\EventStore\EventStore\AggregateRootNotFoundException;
 
+/**
+ * @template AggregateRoot of object
+ * @template DomainEvent of object
+ */
 interface AggregateRootRepository
 {
     /**
-     * @param class-string<AggregateRoot> $aggregateRootClassName
+     * @phpstan-param callable(list<DomainEvent>): AggregateRoot $reconstituteFromEvents
      *
      * @throws AggregateRootNotFoundException
+     *
+     * @return AggregateRoot
      */
-    public function get(string $aggregateRootClassName, AggregateRootId $aggregateRootId): AggregateRoot;
+    public function get(string $aggregateRootId, callable $reconstituteFromEvents): object;
 
-    public function save(AggregateRoot $aggregateRoot): void;
+    /**
+     * @param list<DomainEvent> $appliedDomainEvents
+     */
+    public function save(string $aggregateRootId, int $currentPlayhead, array $appliedDomainEvents): void;
 }

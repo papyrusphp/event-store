@@ -6,7 +6,6 @@ namespace Papyrus\EventStore\Test\EventStore;
 
 use Exception;
 use Papyrus\EventStore\EventStore\EventStoreFailedException;
-use Papyrus\EventStore\Test\EventStore\Stub\TestAggregateRootId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +19,7 @@ class EventStoreFailedExceptionTest extends TestCase
     public function itShouldCreateException(): void
     {
         $exception = EventStoreFailedException::withAggregateRootId(
-            new TestAggregateRootId(),
+            'd22b83d3-2802-4f66-92e2-c20f551a7fa5',
             $previous = new Exception('Failed'),
         );
 
