@@ -87,7 +87,7 @@ use Papyrus\EventStore\Repository\AggregateRootRepository;
 final class YourImplAggregateRootRepository implements YourAggregateRootRepository
 {
     /**
-     * @param AggregateRootRepository<YourDomainEventInterface> $repository
+     * @param AggregateRootRepository<YourAggregateRoot, YourDomainEventInterface> $repository
      */
     public function __construct(
         private readonly AggregateRootRepository $repository,
