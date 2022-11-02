@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "papyrus/clock",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/papyrusphp/clock.git",
-                "reference": "68f4e583e8eb625c38b77490cc494c8b9c5c45e3"
+                "reference": "6d85b798d4fb035ed78baa53d845d0d7f8edfb8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/papyrusphp/clock/zipball/68f4e583e8eb625c38b77490cc494c8b9c5c45e3",
-                "reference": "68f4e583e8eb625c38b77490cc494c8b9c5c45e3",
+                "url": "https://api.github.com/repos/papyrusphp/clock/zipball/6d85b798d4fb035ed78baa53d845d0d7f8edfb8b",
+                "reference": "6d85b798d4fb035ed78baa53d845d0d7f8edfb8b",
                 "shasum": ""
             },
             "require": {
@@ -59,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/papyrusphp/clock/issues",
-                "source": "https://github.com/papyrusphp/clock/tree/0.1.0"
+                "source": "https://github.com/papyrusphp/clock/tree/0.1.1"
             },
-            "time": "2022-10-08T14:34:16+00:00"
+            "time": "2022-11-02T06:26:57+00:00"
         },
         {
             "name": "papyrus/identity-generator",
