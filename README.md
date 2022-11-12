@@ -103,7 +103,7 @@ final class YourImplAggregateRootRepository implements YourAggregateRootReposito
                 (string) $yourAggregateRootId,
                 static function (array $domainEvents): YourAggregateRoot {
                     // Your custom solution to reconstitute the aggregate root
-                    return YourAggregateRoot::reconstituteFromEvents($domainEvents);
+                    return YourAggregateRoot::reconstituteFromEvents(...$domainEvents);
                 },
             );
         } catch (AggregateRootNotFoundException) {
