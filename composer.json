@@ -34,6 +34,9 @@
         "phpunit/phpunit": "^9.5",
         "scrutinizer/ocular": "^1.9"
     },
+    "suggest": {
+        "papyrus/doctrine-dbal-event-store": "Event store implementation based on doctrine/dbal"
+    },
     "autoload": {
         "psr-4": {
             "Papyrus\\EventStore\\": "src/"
