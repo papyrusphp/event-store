@@ -20,16 +20,16 @@ _Follow the installation instructions of the chosen implementation first._
 ### Other optional packages
 When using the optional `EventSourcedAggregateRootRepository`, some other libraries are required as well:
 - A [papyrus/identity-generator](https://github.com/papyrusphp/identity-generator) implementation, e.g. [papyrus/ramsey-uuid-identity-generator](https://github.com/papyrusphp/ramsey-uuid-identity-generator)
-- The [papyrus/clock](https://github.com/papyrusphp/clock) implementation (future PSR-20)
+- The [papyrus/clock](https://github.com/papyrusphp/clock) implementation (PSR-20)
 
 ## Configuration
 A plain PHP PSR-11 Container definition:
 ```php
-use Papyrus\EventStore\Clock\Clock;
 use Papyrus\EventStore\EventStore\EventStore;
 use Papyrus\IdentityGenerator\IdentityGenerator;
 use Papyrus\EventStore\Repository\AggregateRootRepository;
 use Papyrus\EventStore\Repository\EventSourced\EventSourcedAggregateRootRepository;
+use Psr\Clock\ClockInterface;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -46,7 +46,7 @@ return [
             // See papyrus/identity-generator for more details
             $container->get(IdentityGenerator::class),
             // See papyrus/clock for more details
-            $container->get(Clock::class),
+            $container->get(ClockInterface::class),
         );
     },
 ]

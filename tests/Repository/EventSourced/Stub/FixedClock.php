@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Papyrus\EventStore\Test\Repository\EventSourced\Stub;
 
 use DateTimeImmutable;
-use Papyrus\Clock\Clock;
+use Psr\Clock\ClockInterface;
 
-final class FixedClock implements Clock
+final class FixedClock implements ClockInterface
 {
     private DateTimeImmutable $dateTime;
 

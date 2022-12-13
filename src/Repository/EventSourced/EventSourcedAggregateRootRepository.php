@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Papyrus\EventStore\Repository\EventSourced;
 
-use Papyrus\Clock\Clock;
 use Papyrus\EventStore\EventStore\AggregateRootNotFoundException;
 use Papyrus\EventStore\EventStore\DomainEventEnvelope;
 use Papyrus\EventStore\EventStore\EventStore;
@@ -12,6 +11,7 @@ use Papyrus\EventStore\EventStore\EventStoreFailedException;
 use Papyrus\EventStore\EventStore\Metadata;
 use Papyrus\EventStore\Repository\AggregateRootRepository;
 use Papyrus\IdentityGenerator\IdentityGenerator;
+use Psr\Clock\ClockInterface;
 
 /**
  * @template AggregateRoot of object
@@ -27,7 +27,7 @@ final class EventSourcedAggregateRootRepository implements AggregateRootReposito
     public function __construct(
         private readonly EventStore $eventStore,
         private readonly IdentityGenerator $identityGenerator,
-        private readonly Clock $clock,
+        private readonly ClockInterface $clock,
     ) {
     }
 
